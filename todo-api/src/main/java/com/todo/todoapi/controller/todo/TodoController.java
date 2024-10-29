@@ -18,6 +18,7 @@ public class TodoController {
         return this.todoRepository.findAll();
     }
 
+
     @PostMapping("/todos")
     public Todo add(@RequestBody Todo todo) {
         return this.todoRepository.save(todo);
