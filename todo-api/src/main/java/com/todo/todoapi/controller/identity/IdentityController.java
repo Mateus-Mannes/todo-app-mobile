@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 public class IdentityController {
 
@@ -43,7 +46,9 @@ public class IdentityController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String token = jwtService.generateToken(user);
-        return ResponseEntity.ok("Bearer " + token);
+        Map<String, String> response = new HashMap<>();
+        response.put("token", "Bearer " + token);
+        return ResponseEntity.ok(response);
     }
 
 }
