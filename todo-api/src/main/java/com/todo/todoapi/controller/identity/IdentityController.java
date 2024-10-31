@@ -56,6 +56,8 @@ public class IdentityController {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        user = userRepository.findByEmail(user.getEmail()).orElse(null);
+        assert user != null;
         String token = jwtService.generateToken(user);
         Map<String, String> response = new HashMap<>();
         response.put("token", "Bearer " + token);
