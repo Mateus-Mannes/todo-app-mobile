@@ -9,5 +9,8 @@ import retrofit2.http.POST;
 public interface ApiService {
     @POST("/identity/login")
     Call<Map<String, Object>> loginUser(@Body Map<String, String> credentials);
+
+    @POST("/identity/register")
+    Call<Map<String, Object>> registrarUser(@Body Map<String, String> cadastro);
 }
 
