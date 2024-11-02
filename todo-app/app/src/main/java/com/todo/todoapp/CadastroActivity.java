@@ -47,7 +47,7 @@ public class CadastroActivity extends AppCompatActivity {
                 if (userName.isEmpty() || userEmail.isEmpty() || userPassword.isEmpty()) {
                     Toast.makeText(CadastroActivity.this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show();
                 } else {
-                    var apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+                    var apiService = RetrofitClient.getRetrofitInstance(CadastroActivity.this).create(ApiService.class);
                     // Criar o Map para enviar as credenciais
                     Map<String, String> cadastro = new HashMap<>();
                     cadastro.put("name", userName);

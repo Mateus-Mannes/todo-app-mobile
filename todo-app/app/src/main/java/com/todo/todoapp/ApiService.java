@@ -4,6 +4,8 @@ import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface ApiService {
@@ -12,5 +14,9 @@ public interface ApiService {
 
     @POST("/identity/register")
     Call<Map<String, Object>> registrarUser(@Body Map<String, String> cadastro);
+
+    @GET("/identity/check")
+    Call<Map<String, Object>> check(@Header("Authorization") String token);
+
 }
 

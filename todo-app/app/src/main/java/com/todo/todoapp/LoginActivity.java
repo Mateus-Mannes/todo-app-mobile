@@ -28,7 +28,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         this.tokenManager = new TokenManager(this);
+        var tokenAtual = tokenManager.getToken();
+        if(tokenAtual != null) {
+            validateToken(tokenAtual);
+        }
 
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
@@ -44,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (userEmail.isEmpty() || userPassword.isEmpty()) {
                     Toast.makeText(LoginActivity.this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show();
                 } else {
-                    var apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+                    var apiService = RetrofitClient.getRetrofitInstance(LoginActivity.this).create(ApiService.class);
                     // Criar o Map para enviar as credenciais
                     Map<String, String> credentials = new HashMap<>();
                     credentials.put("email", userEmail);
@@ -84,4 +89,27 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void validateToken(String token) {
+        var apiService = RetrofitClient.getRetrofitInstance(this).create(ApiService.class);
+
+        Call<Map<String, Object>> call = apiService.check("Bearer " + token);
+        call.enqueue(new Callback<Map<String, Object>>() {
+            @Override
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                if (response.isSuccessful()) {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, "Sessão expirada. Faça login novamente.", Toast.LENGTH_SHORT).show();
+                tokenManager.clearToken();
+            }
+        });
+    }
+
 }

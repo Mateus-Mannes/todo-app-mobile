@@ -67,12 +67,16 @@ public class JwtFilter extends OncePerRequestFilter {
 
                     authToken.setDetails(userId);
                     SecurityContextHolder.getContext().setAuthentication(authToken);
+                } else {
+                    // Se o token não for válido, retorne 401 Unauthorized
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    return; // Para de processar a requisição
                 }
             }
 
             filterChain.doFilter(request, response);
         } catch (Exception exception) {
-            handlerExceptionResolver.resolveException(request, response, null, exception);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
     }
 }

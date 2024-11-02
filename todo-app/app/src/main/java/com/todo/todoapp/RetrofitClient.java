@@ -1,5 +1,7 @@
 package com.todo.todoapp;
 
+import android.content.Context;
+
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.concurrent.TimeUnit;
@@ -18,12 +20,13 @@ public class RetrofitClient {
     private static Retrofit retrofit;
     private static final String BASE_URL = BuildConfig.API_URL;
 
-    public static Retrofit getRetrofitInstance() {
+    public static Retrofit getRetrofitInstance(final Context context) {
         if (retrofit == null) {
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
                 .connectTimeout(120, TimeUnit.SECONDS)
                 .readTimeout(120, TimeUnit.SECONDS)
-                .writeTimeout(120, TimeUnit.SECONDS);;
+                .writeTimeout(120, TimeUnit.SECONDS)
+                .addInterceptor(new AuthInterceptor(context));
 
             // Aceita o certificado local para desenvolvimento
             if (BuildConfig.DEBUG) {
