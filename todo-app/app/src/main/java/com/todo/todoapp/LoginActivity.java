@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
     private void validateToken(String token) {
         var apiService = RetrofitClient.getRetrofitInstance(this).create(ApiService.class);
 
-        Call<Map<String, Object>> call = apiService.check("Bearer " + token);
+        Call<Map<String, Object>> call = apiService.check(token);
         call.enqueue(new Callback<Map<String, Object>>() {
             @Override
             public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
@@ -101,12 +101,18 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
+                } else if(response.code() == 401) {
+                    Toast.makeText(LoginActivity.this, "Sessão expirada. Faça login novamente.", Toast.LENGTH_SHORT).show();
+                    tokenManager.clearToken();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Erro de conexão, teste novamente.", Toast.LENGTH_SHORT).show();
+                    tokenManager.clearToken();
                 }
             }
 
             @Override
             public void onFailure(Call<Map<String, Object>> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "Sessão expirada. Faça login novamente.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Erro de conexão, teste novamente.", Toast.LENGTH_SHORT).show();
                 tokenManager.clearToken();
             }
         });

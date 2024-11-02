@@ -20,7 +20,7 @@ public class AuthInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Response response = chain.proceed(chain.request());
 
-        if (response.code() == 401) {
+        if (response.code() == 401 && !chain.request().url().encodedPath().equals("/identity/check")) {
             // Se a resposta for 401, redireciona para a tela de login
             Intent intent = new Intent(context, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Limpa a pilha de atividades
