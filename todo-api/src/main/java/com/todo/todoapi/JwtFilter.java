@@ -1,6 +1,7 @@
 package com.todo.todoapi;
 
 import com.todo.todoapi.domain.identity.JwtService;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
@@ -49,6 +50,8 @@ public class JwtFilter extends OncePerRequestFilter {
         try {
             final String jwt = authHeader.substring(7);
             final String userEmail = jwtService.extractUsername(jwt);
+            Claims claims = jwtService.extractClaim(jwt, x -> x);
+            final String userId = claims.get("userId", String.class);
 
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -62,7 +65,7 @@ public class JwtFilter extends OncePerRequestFilter {
                             userDetails.getAuthorities()
                     );
 
-                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    authToken.setDetails(userId);
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }

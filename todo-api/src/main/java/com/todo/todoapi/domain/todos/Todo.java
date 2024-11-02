@@ -7,6 +7,10 @@ public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
+    @Column(nullable = false)
+    private Integer userId;
+
     private String text;
 
     public Todo() {
@@ -27,5 +31,13 @@ public class Todo {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }
