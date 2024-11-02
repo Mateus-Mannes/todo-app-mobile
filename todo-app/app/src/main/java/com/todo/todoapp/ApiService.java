@@ -1,12 +1,15 @@
 package com.todo.todoapp;
 
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ApiService {
     @POST("/identity/login")
@@ -17,6 +20,15 @@ public interface ApiService {
 
     @GET("/identity/check")
     Call<Map<String, Object>> check(@Header("Authorization") String token);
+
+    @GET("/todos")
+    Call<List<Todo>> getTodos(@Header("Authorization") String token);
+
+    @POST("/todos")
+    Call<Todo> createTodo(@Header("Authorization") String token, @Body Todo todo);
+
+    @DELETE("/todos/{id}")
+    Call<Void> deleteTodo(@Header("Authorization") String token, @Path("id") Integer id);
 
 }
 

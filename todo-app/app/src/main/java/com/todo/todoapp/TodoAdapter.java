@@ -7,14 +7,15 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import java.util.List;
+
+import java.util.ArrayList;
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder> {
 
-    private List<String> todoList;
+    private ArrayList<Todo> todoList;
     private OnDeleteClickListener onDeleteClickListener;
 
-    public TodoAdapter(List<String> todoList, OnDeleteClickListener onDeleteClickListener) {
+    public TodoAdapter(ArrayList<Todo> todoList, OnDeleteClickListener onDeleteClickListener) {
         this.todoList = todoList;
         this.onDeleteClickListener = onDeleteClickListener;
     }
@@ -28,7 +29,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull TodoViewHolder holder, int position) {
-        String title = todoList.get(position);
+        String title = todoList.get(position).getText();
         holder.titleTextView.setText(title);
 
         // Botão de deletar

@@ -59,7 +59,7 @@ public class RetrofitClient {
 
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .client(client)  // Configura o cliente OkHttp com SSL ignorado no debug
+                    .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

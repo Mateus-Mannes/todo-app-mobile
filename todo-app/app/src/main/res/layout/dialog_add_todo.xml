@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Campo para o texto do Todo -->
+    <EditText
+        android:id="@+id/editTextTodo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Digite o texto da tarefa"
+        android:inputType="text"
+        android:padding="8dp" />
+
+    <!-- Espaçamento entre o campo de texto e os botões -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="16dp" />
+
+    <!-- Layout horizontal para os botões -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <!-- Botão Salvar -->
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Salvar"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#009688" />
+
+        <!-- Espaçamento entre os botões -->
+        <Space
+            android:layout_width="16dp"
+            android:layout_height="match_parent" />
+
+        <!-- Botão Cancelar -->
+        <Button
+            android:id="@+id/buttonCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#787373"
+            android:text="Cancelar"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
+</LinearLayout>
