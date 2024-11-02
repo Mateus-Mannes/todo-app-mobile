@@ -1,4 +1,4 @@
-package com.todo.todoapp;
+package com.todo.todoapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,10 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.todo.todoapp.services.ApiService;
+import com.todo.todoapp.R;
+import com.todo.todoapp.services.RetrofitClient;
 
 import java.io.IOException;
 import java.util.HashMap;

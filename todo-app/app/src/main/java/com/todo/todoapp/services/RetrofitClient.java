@@ -1,6 +1,8 @@
-package com.todo.todoapp;
+package com.todo.todoapp.services;
 
 import android.content.Context;
+
+import com.todo.todoapp.BuildConfig;
 
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;

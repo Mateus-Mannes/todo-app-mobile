@@ -1,4 +1,4 @@
-package com.todo.todoapp;
+package com.todo.todoapp.models;
 
 public class Todo {
     private Integer id;

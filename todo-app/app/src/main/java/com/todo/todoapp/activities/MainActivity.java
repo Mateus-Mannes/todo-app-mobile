@@ -1,4 +1,4 @@
-package com.todo.todoapp;
+package com.todo.todoapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,10 +16,16 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.todo.todoapp.services.ApiService;
+import com.todo.todoapp.R;
+import com.todo.todoapp.services.RetrofitClient;
+import com.todo.todoapp.models.Todo;
+import com.todo.todoapp.services.TodoAdapter;
+import com.todo.todoapp.services.TokenManager;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;

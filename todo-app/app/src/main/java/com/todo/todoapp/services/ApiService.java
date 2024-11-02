@@ -1,4 +1,6 @@
-package com.todo.todoapp;
+package com.todo.todoapp.services;
+
+import com.todo.todoapp.models.Todo;
 
 import java.util.List;
 import java.util.Map;

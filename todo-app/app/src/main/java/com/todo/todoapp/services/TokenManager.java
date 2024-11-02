@@ -1,4 +1,4 @@
-package com.todo.todoapp;
+package com.todo.todoapp.services;
 
 import android.content.Context;
 import android.content.SharedPreferences;
