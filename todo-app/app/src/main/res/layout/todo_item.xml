@@ -21,6 +21,18 @@
             android:orientation="vertical"
             android:padding="10dp">
 
+            <!-- Nome da Lista -->
+            <TextView
+                android:id="@+id/listName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nome da Lista"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_marginBottom="6dp" />
+
             <!-- Título -->
             <TextView
                 android:id="@+id/title"

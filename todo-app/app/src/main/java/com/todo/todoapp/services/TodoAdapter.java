@@ -35,6 +35,9 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
     public void onBindViewHolder(@NonNull TodoViewHolder holder, int position) {
         Todo todo = todoList.get(position);
 
+        //Lista
+        holder.listNameTextView.setText("Lista: " + todo.getListName());
+
         // Título
         holder.titleTextView.setText(todo.getText());
 
@@ -57,6 +60,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
     }
 
     public static class TodoViewHolder extends RecyclerView.ViewHolder {
+        TextView listNameTextView;
         TextView titleTextView;
         TextView targetDateTextView;
         TextView statusTextView;
@@ -64,6 +68,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
 
         public TodoViewHolder(@NonNull View itemView) {
             super(itemView);
+            listNameTextView = itemView.findViewById(R.id.listName);
             titleTextView = itemView.findViewById(R.id.title);
             targetDateTextView = itemView.findViewById(R.id.targetDate);
             statusTextView = itemView.findViewById(R.id.status);

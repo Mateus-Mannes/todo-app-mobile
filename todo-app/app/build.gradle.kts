@@ -17,7 +17,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "API_URL", "\"https://192.168.100.130:8443\"")
+            buildConfigField("String", "API_URL", "\"https://192.168.100.7:8443\"")
         }
         release {
             isMinifyEnabled = false

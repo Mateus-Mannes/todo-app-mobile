@@ -167,16 +167,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void createTodoList(String listName) {
-        // Criação da nova lista de tarefas
+        String token = tokenManager.getToken();
         TodoLists newList = new TodoLists();
         newList.setListName(listName);
 
-        Call<TodoLists> call = RetrofitClient.getRetrofitInstance(this).create(ApiService.class).createTodoList(tokenManager.getToken(), newList);
+        Call<TodoLists> call = RetrofitClient.getRetrofitInstance(this).create(ApiService.class).createTodoList(token, newList);
         call.enqueue(new Callback<TodoLists>()  {
             @Override
             public void onResponse(Call<TodoLists> call, Response<TodoLists> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Toast.makeText(MainActivity.this, "Lista criada com sucesso", Toast.LENGTH_SHORT).show();
+                    fetchTodos();
                 } else {
                     Toast.makeText(MainActivity.this, "Erro ao criar a lista", Toast.LENGTH_SHORT).show();
                 }
