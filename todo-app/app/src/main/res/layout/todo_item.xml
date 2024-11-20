@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -18,29 +18,48 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:gravity="center_vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
+            <!-- Título -->
             <TextView
                 android:id="@+id/title"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TodosTodosTodosTodosTodosTodosTodosTodosTodosTodosTod"
+                android:text="Título da Tarefa"
                 android:textSize="15sp"
                 android:ellipsize="end"
-                android:singleLine="false"
-                android:layout_marginLeft="10dp"/>
+                android:maxLines="1"
+                android:layout_marginBottom="6dp" />
 
+            <!-- Data Limite -->
+            <TextView
+                android:id="@+id/targetDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Data Limite: dd/MM/yyyy"
+                android:textSize="13sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginBottom="4dp" />
+
+            <!-- Status -->
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Status: Planejada"
+                android:textSize="13sp"
+                android:textColor="@android:color/darker_gray" />
+
+            <!-- Botão Deletar -->
             <ImageButton
                 android:id="@+id/btnDelete"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:src="@drawable/ic_delete"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"/>
+                android:layout_gravity="end"
+                android:layout_marginTop="8dp" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

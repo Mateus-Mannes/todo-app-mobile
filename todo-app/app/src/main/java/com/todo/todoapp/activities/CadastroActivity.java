@@ -45,7 +45,7 @@ public class CadastroActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String userEmail = email.getText().toString();
                 String userPassword = password.getText().toString();
-                String userName = password.getText().toString();
+                String userName = name.getText().toString();
 
                 // Validação básica
                 if (userName.isEmpty() || userEmail.isEmpty() || userPassword.isEmpty()) {

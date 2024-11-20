@@ -1,6 +1,7 @@
 package com.todo.todoapp.services;
 
 import com.todo.todoapp.models.Todo;
+import com.todo.todoapp.models.TodoLists;
 
 import java.util.List;
 import java.util.Map;
@@ -32,5 +33,10 @@ public interface ApiService {
     @DELETE("/todos/{id}")
     Call<Void> deleteTodo(@Header("Authorization") String token, @Path("id") Integer id);
 
+    @GET("/todolists")
+    Call<List<TodoLists>> getTodoLists(@Header("Authorization") String token);
+
+    @POST("/todolists")
+    Call<TodoLists> createTodoList(@Header("Authorization") String token, @Body TodoLists todoList);
 }
 

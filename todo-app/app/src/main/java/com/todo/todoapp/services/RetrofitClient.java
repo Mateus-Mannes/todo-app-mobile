@@ -2,10 +2,15 @@ package com.todo.todoapp.services;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonSerializer;
 import com.todo.todoapp.BuildConfig;
 
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLContext;
@@ -56,6 +61,13 @@ public class RetrofitClient {
                     e.printStackTrace();
                 }
             }
+
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(LocalDate.class, (JsonDeserializer<LocalDate>) (json, type, context1) ->
+                            LocalDate.parse(json.getAsString()))
+                    .registerTypeAdapter(LocalDate.class, (JsonSerializer<LocalDate>) (date, type, context1) ->
+                            new com.google.gson.JsonPrimitive(date.toString()))
+                    .create();
 
             OkHttpClient client = clientBuilder.build();
 
