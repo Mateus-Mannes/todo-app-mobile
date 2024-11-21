@@ -1,11 +1,13 @@
 package com.todo.todoapi.controller.todo;
 
 import com.todo.todoapi.controller.ApiResponse;
+import com.todo.todoapi.domain.enums.StatusTodoEnum;
 import com.todo.todoapi.domain.todos.Todo;
 import com.todo.todoapi.domain.todos.TodoLists;
 import com.todo.todoapi.infrastructure.todos.TodoListRepository;
 import com.todo.todoapi.infrastructure.todos.TodoRepository;
 import com.todo.todoapi.infrastructure.todos.TodoTodoListRepository;
+import com.todo.todoapi.services.TodoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -21,13 +23,17 @@ public class TodoController {
     private final TodoListRepository todoListRepository;
     private final TodoTodoListRepository todoTodoListRepository;
 
+    private final TodoService todoService;
+
     public TodoController (
         TodoRepository todoRepository,
         TodoListRepository todoListRepository,
-        TodoTodoListRepository todoTodoListRepository) {
+        TodoTodoListRepository todoTodoListRepository,
+        TodoService todoService) {
         this.todoRepository = todoRepository;
         this.todoListRepository = todoListRepository;
         this.todoTodoListRepository = todoTodoListRepository;
+        this.todoService = todoService;
     }
 
     @GetMapping("/todos")
@@ -119,5 +125,18 @@ public class TodoController {
 
         todo.setTodoList(todoList);
         return todoRepository.save(todo);
+    }
+
+    @PatchMapping("todos/{id}/status")
+    public ResponseEntity<?> updateStatus(@PathVariable Integer id, @RequestBody StatusTodoEnum newStatus) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = (String) authentication.getDetails();
+
+        try {
+            todoService.updateStatus(id, Integer.parseInt(userId), newStatus);
+            return ResponseEntity.ok(new ApiResponse("Status atualizado com sucesso", true));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(e.getMessage(), false));
+        }
     }
 }

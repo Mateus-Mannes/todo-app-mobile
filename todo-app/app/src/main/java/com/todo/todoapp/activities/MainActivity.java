@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Configurar o adapter
         adapter = new TodoAdapter(todoList, position -> {
             deleteTodo(todoList.get(position).getId(), position); // Deletar ao clicar
-        });
+        }, this);
         recyclerView.setAdapter(adapter);
 
         // Configurar o botão de adicionar
@@ -355,6 +355,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Falha na conexão", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void updateTodoStatus(int todoId, StatusTodoEnum newStatus) {
+        // Implementação de atualização no backend usando Retrofit ou outra biblioteca
+
+        // Exemplo usando Retrofit
+        ApiService apiService = RetrofitClient.getRetrofitInstance(this).create(ApiService.class);
+        Call<Todo> call = apiService.updateTodoStatus(tokenManager.getToken(), todoId, newStatus);
+
+        call.enqueue(new Callback<Todo>() {
+            @Override
+            public void onResponse(Call<Todo> call, Response<Todo> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // Atualizar a lista localmente (exemplo)
+                    for (Todo todo : todoList) {
+                        if (todo.getId() == todoId) {
+                            todo.setStatus(newStatus);
+                            break;
+                        }
+                    }
+                    // Notificar o adapter que o item foi alterado
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(MainActivity.this, "Status atualizado!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Erro ao atualizar status.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Todo> call, Throwable t) {
                 Toast.makeText(MainActivity.this, "Falha na conexão", Toast.LENGTH_SHORT).show();
             }
         });

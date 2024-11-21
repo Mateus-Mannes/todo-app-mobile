@@ -2,6 +2,7 @@ package com.todo.todoapp.services;
 
 import com.todo.todoapp.models.Todo;
 import com.todo.todoapp.models.TodoLists;
+import com.todo.todoapp.models.enums.StatusTodoEnum;
 
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -41,5 +43,8 @@ public interface ApiService {
 
     @GET("/todolists/{listName}")
     Call<TodoLists> getList(@Header("Authorization") String token, @Path("listName") String listName);
+
+    @PATCH("todos/{id}/status")
+    Call<Todo> updateTodoStatus(@Header("Authorization") String token, @Path("id") int todoId, @Body StatusTodoEnum newStatus);
 }
 
