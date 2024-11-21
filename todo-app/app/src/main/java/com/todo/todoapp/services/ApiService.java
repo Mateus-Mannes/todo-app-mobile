@@ -38,5 +38,8 @@ public interface ApiService {
 
     @POST("/todolists")
     Call<TodoLists> createTodoList(@Header("Authorization") String token, @Body TodoLists todoList);
+
+    @GET("/todolists/{listName}")
+    Call<TodoLists> getList(@Header("Authorization") String token, @Path("listName") String listName);
 }
 

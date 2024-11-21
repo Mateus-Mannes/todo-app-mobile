@@ -289,20 +289,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dialog.show();
     }
 
-
-
     private void createTodo(String todoText, LocalDate targetDate, StatusTodoEnum status, String listName) {
-        Todo newTodo = new Todo();
-        newTodo.setText(todoText);
-        newTodo.setTargetDate(targetDate);
-        newTodo.setStatus(status);
-        newTodo.setListName(listName);
+        ApiService apiService = RetrofitClient.getRetrofitInstance(this).create(ApiService.class);
 
-        TodoLists newTodoList = new TodoLists();
-        newTodoList.setListName(listName);
-        newTodo.setTodoList(newTodoList);
+        Call<TodoLists> listCall = apiService.getList(tokenManager.getToken(), listName);
+        listCall.enqueue(new Callback<TodoLists>() {
+            @Override
+            public void onResponse(Call<TodoLists> call, Response<TodoLists> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    TodoLists existingList = response.body();
 
-        Call<Todo> call = RetrofitClient.getRetrofitInstance(this).create(ApiService.class).createTodo(tokenManager.getToken(), newTodo);
+                    Todo newTodo = new Todo();
+                    newTodo.setText(todoText);
+                    newTodo.setTargetDate(targetDate);
+                    newTodo.setStatus(status);
+                    newTodo.setTodoList(existingList);
+
+                    saveTodo(newTodo);
+                } else {
+                    Toast.makeText(MainActivity.this, "Lista não encontrada", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TodoLists> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Erro ao buscar a lista", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void saveTodo(Todo newTodo) {
+        ApiService apiService = RetrofitClient.getRetrofitInstance(this).create(ApiService.class);
+
+        Call<Todo> call = apiService.createTodo(tokenManager.getToken(), newTodo);
         call.enqueue(new Callback<Todo>() {
             @Override
             public void onResponse(Call<Todo> call, Response<Todo> response) {

@@ -17,7 +17,7 @@ public class TodoLists {
     @Column(nullable = false)
     private String listName;
 
-    @OneToMany(mappedBy = "todoList")
+    @OneToMany(mappedBy = "todoList", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TodoTodoList> todoTodoLists;
 
     public TodoLists() {

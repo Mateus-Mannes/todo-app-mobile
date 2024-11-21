@@ -3,7 +3,6 @@ package com.todo.todoapi.controller.todo;
 import com.todo.todoapi.controller.ApiResponse;
 import com.todo.todoapi.domain.todos.Todo;
 import com.todo.todoapi.domain.todos.TodoLists;
-import com.todo.todoapi.domain.todos.TodoTodoList;
 import com.todo.todoapi.infrastructure.todos.TodoListRepository;
 import com.todo.todoapi.infrastructure.todos.TodoRepository;
 import com.todo.todoapi.infrastructure.todos.TodoTodoListRepository;
@@ -12,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 public class TodoController {
@@ -36,40 +37,18 @@ public class TodoController {
         return this.todoRepository.getAllByUserId(Integer.parseInt(userId));
     }
 
-    @PostMapping("/todos/{todoId}/add-to-list/{listId}")
-    public ResponseEntity<ApiResponse> addTodoToList(@PathVariable Integer todoId, @PathVariable Integer listId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userId = (String) authentication.getDetails();
-
-        TodoLists todoList = todoListRepository.findById(listId).orElse(null);
-        Todo todo = todoRepository.findById(todoId).orElse(null);
-
-        if (todoList == null || todo == null || !todoList.getUserId().equals(Integer.parseInt(userId))) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse("Operação não permitida", false));
-        }
-
-        // Criar a associação
-        TodoTodoList todoTodoList = new TodoTodoList();
-        todoTodoList.setTodo(todo);
-        todoTodoList.setTodoList(todoList);
-        todoTodoListRepository.save(todoTodoList);
-
-        return ResponseEntity.ok(new ApiResponse("Tarefa adicionada à lista com sucesso", true));
-    }
-
     @PostMapping("/todos")
     public Todo add(@RequestBody Todo todo) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userId = (String) authentication.getDetails();
         todo.setUserId(Integer.parseInt(userId));
 
-        todo.getTodoList().setUserId(Integer.parseInt(userId));
-
-        TodoTodoList todoTodoList = new TodoTodoList();
-        todoTodoList.setTodo(todo);
-        todoTodoList.setTodoList(todo.getTodoList());
-
-        todo.getTodoList().getTodoTodoLists().add(todoTodoList);
+        if (todo.getTodoList() != null && todo.getTodoList().getId() == null) {
+            TodoLists todoList = todo.getTodoList();
+            todoList.setUserId(Integer.parseInt(userId));
+            todoList = todoListRepository.save(todoList);
+            todo.setTodoList(todoList);
+        }
 
         return this.todoRepository.save(todo);
     }
@@ -94,6 +73,16 @@ public class TodoController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userId = (String) authentication.getDetails();
         return this.todoListRepository.getAllByUserId(Integer.parseInt(userId));
+    }
+
+    @GetMapping("/todolists/{listName}")
+    public ResponseEntity<TodoLists> getList(@PathVariable String listName) {
+        Optional<TodoLists> todoList = todoListRepository.findByListName(listName);
+        if (todoList.isPresent()) {
+            return ResponseEntity.ok(todoList.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @PostMapping("/todolists")

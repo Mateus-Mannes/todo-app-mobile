@@ -36,7 +36,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
         Todo todo = todoList.get(position);
 
         //Lista
-        holder.listNameTextView.setText("Lista: " + todo.getListName());
+        holder.listNameTextView.setText("Lista: " + todo.getTodoList().getListName());
 
         // Título
         holder.titleTextView.setText(todo.getText());
