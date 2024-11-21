@@ -62,8 +62,16 @@ public class TodoController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userId = (String) authentication.getDetails();
         todo.setUserId(Integer.parseInt(userId));
-        var teste = this.todoRepository.save(todo);
-        return teste;
+
+        todo.getTodoList().setUserId(Integer.parseInt(userId));
+
+        TodoTodoList todoTodoList = new TodoTodoList();
+        todoTodoList.setTodo(todo);
+        todoTodoList.setTodoList(todo.getTodoList());
+
+        todo.getTodoList().getTodoTodoLists().add(todoTodoList);
+
+        return this.todoRepository.save(todo);
     }
 
     @DeleteMapping("/todos/{id}")

@@ -20,6 +20,8 @@ public class Todo {
     @SerializedName("listName")
     private String listName;
 
+    private TodoLists todoList;
+
     public Todo() {
 
     }
@@ -70,5 +72,13 @@ public class Todo {
 
     public void setListName(String listName) {
         this.listName = listName;
+    }
+
+    public TodoLists getTodoList() {
+        return todoList;
+    }
+
+    public void setTodoList(TodoLists todoList) {
+        this.todoList = todoList;
     }
 }

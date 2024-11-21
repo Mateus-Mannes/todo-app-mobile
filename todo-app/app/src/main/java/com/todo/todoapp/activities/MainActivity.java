@@ -298,6 +298,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         newTodo.setStatus(status);
         newTodo.setListName(listName);
 
+        TodoLists newTodoList = new TodoLists();
+        newTodoList.setListName(listName);
+        newTodo.setTodoList(newTodoList);
+
         Call<Todo> call = RetrofitClient.getRetrofitInstance(this).create(ApiService.class).createTodo(tokenManager.getToken(), newTodo);
         call.enqueue(new Callback<Todo>() {
             @Override

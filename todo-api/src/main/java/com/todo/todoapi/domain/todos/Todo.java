@@ -20,7 +20,7 @@ public class Todo {
     private StatusTodoEnum status;
 
     @ManyToOne
-    @JoinColumn(name = "list_id")
+    @JoinColumn(name = "listId")
     private TodoLists todoList;
 
     public Todo() {
