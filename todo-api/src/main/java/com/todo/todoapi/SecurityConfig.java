@@ -1,5 +1,6 @@
 package com.todo.todoapi;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -14,13 +15,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final AuthenticationProvider authenticationProvider;
-    private final JwtFilter jwtFilter;
+    @Autowired
+    private AuthenticationProvider authenticationProvider;
 
-    public SecurityConfig(AuthenticationProvider authenticationProvider, JwtFilter jwtFilter) {
-        this.authenticationProvider = authenticationProvider;
-        this.jwtFilter = jwtFilter;
-    }
+    @Autowired
+    private JwtFilter jwtFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
