@@ -8,5 +8,5 @@ import java.util.Optional;
 public interface TodoListRepository extends CrudRepository<TodoLists, Integer> {
     Iterable<TodoLists> getAllByUserId(Integer userId);
 
-    Optional<TodoLists> findByListName(String name);
+    Optional<TodoLists> findByListNameAndUserId(String name, Integer userId);
 }

@@ -83,7 +83,9 @@ public class TodoController {
 
     @GetMapping("/todolists/{listName}")
     public ResponseEntity<TodoLists> getList(@PathVariable String listName) {
-        Optional<TodoLists> todoList = todoListRepository.findByListName(listName);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = (String) authentication.getDetails();
+        Optional<TodoLists> todoList = todoListRepository.findByListNameAndUserId(listName, Integer.parseInt(userId));
         if (todoList.isPresent()) {
             return ResponseEntity.ok(todoList.get());
         } else {
